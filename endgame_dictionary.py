@@ -1,2 +1,3 @@
 import pickle
-pickle.load(open())
+endgame_table = pickle.load(open("table.txt", "rb")
+print(endgame_table)
