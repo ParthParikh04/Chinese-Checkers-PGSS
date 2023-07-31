@@ -1,0 +1,53 @@
+- make board
+- moves as list
+- humans to move via list (maybe either some sort of a UI or console-based but idk how we would represent the board on there)
+- check if game is over
+- check for legal moves  
+- cannot return to same move in turn to avoid infinite loop
+- no second move if only one square to the side/up/down
+
+7/13/2023
+- Check win (check either pieces list or the board matrix)
+- Calcboard function (heuristic of sorts)
+  - Compare ranks of your pieces - ranks of opponent pieces (could prove issue with one piece trying to move over alone)
+  - try to keep clustered pieces maybe
+- Functionality for computer vs self
+- Print diamond-shaped board (later)
+- Flipboard function to flip board (it should switch player 1 and player 2 pieces -- consider maybe switching 1 and 2 with 1, -1?)
+
+Board structure:
+- board matrix
+- pieces lists
+- player whose turn it is
+- maybe list of previous moves to avoid returning to prev square?
+- board eval routine
+
+
+# Notes
+- last element of p1 and p2 contains furthest starting position of the code
+
+
+# Scoring strategies
+Simple:
+- https://www.gamedev.net/forums/topic/706626-chinese-checkers-minimax-implementation/5424998/
+
+One possibility:
+1. calculate the rank of each of the pieces. 
+2. sum up the ranks
+3. then subtract their standard deviation times some weight
+4. consider blocking other players?
+    - come back to if time allows since blocking others is often blocking yourself and complicates code
+
+Possible names
+- A Minimax Approach to Chinese Checkers
+- The Making of a Chinese Checkers Champion
+- A Journey Through the Star: A Minimax exploration of Chinese Checkers
+
+
+
+7/30 
+As a record of what was updated and notes:
+- checkwin only checks if the bottom right corner i full since that's all that matters. (Because of flipboard.)
+- tried a basic calc_board3 algorithm
+- ran through the logic of the minimax. It's all correct
+

@@ -1,0 +1,17 @@
+This is a space for possible Bugs to be reported by people reading the code. If the bug is fixed please make a note of it.
+
+board_helen
+board_old.py
+board.py
+computer_turn
+cvc
+endgame
+legal_moves
+line 29 - I think p1 has its origin stored twice, not sure if this is a bug or intentional.
+
+
+
+main
+old_code
+Recursion_test
+smart_turn

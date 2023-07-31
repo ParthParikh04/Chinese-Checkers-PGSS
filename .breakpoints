@@ -1,0 +1,20 @@
+{
+  "files": {
+    "board.py": [
+      {
+        "id": "49223e70-3d5e-40c8-9402-6b9c0e52d6c4",
+        "line": 1,
+        "version": 2144,
+        "index": 0
+      }
+    ],
+    "legal_moves.py": [
+      {
+        "id": "8d5b27cb-e4e7-4994-997f-e2e460f2f45a",
+        "line": 86,
+        "version": 10727,
+        "index": 1776
+      }
+    ]
+  }
+}

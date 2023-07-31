@@ -1,0 +1,40 @@
+from legal_moves import *
+'''def lookahead(p1, p2, board, level): # returns the best value for any possible move
+    if level==0:
+        return calc_board2(p1)
+    else:
+        movelist = valid_moves(board)
+        bestval = -998
+        for move in movelist:
+            tempBoard = copy.deepcopy(board)
+            flip_board(board)'''
+
+board = make_board()
+
+move_list = valid_moves(p1, board)
+for key, value in move_list:
+  for dest in value:
+    tempBoard = copy.deepcopy(board)
+    # print(dest)
+    make_move(key[0], key[1], dest[0], dest[1], 1, temp_board)
+    print_board(temp_board)
+
+
+f check_win(board)
+                return (mymove)
+            val = lookahead(p1, p2, board, level
+            if val > bestval:
+                bestval = val
+                bestmove = copy.copy(mymove))
+            def smartturn(board, level, p1, p2):
+  movelist = legalmoves(board)
+  random.shuffle(movelist)
+  bestval = -1001
+  bestmove = []
+  for key, value in movelist:
+    for dest in value:
+      tempBoard = copy.deepcopy(board)
+      bool = (p1[10] == [0, 0])  #tells us if we're p1 or p2
+      if bool:
+        flipboard(tempBoard)
+      make_move(key[0], key[1], dest[0], dest[1], p1, board)

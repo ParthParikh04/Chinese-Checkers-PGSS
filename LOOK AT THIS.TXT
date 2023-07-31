@@ -1,0 +1,19 @@
+Okay, so, I think it works but there's a few things we need to work on (put your name and a comment after a bullet point if you look at/address/change anything abt the issue)
+
+1) I'm not entirely sure where the state of the UI is, but we should try to get it working with a similar approach that prof used. That way, we can just change smthng rq and get it to work with computer vs computer, etc etc. Ideally, it should also be able to run two computers with different weights/levels of search against each other but that's not an immediate concern iykwim
+
+
+
+2) We need to work on the calc_board3 function but that's gonna be interesting. I think we should develop a few diff versions of functions that account for stdev stuff too and test them against each other for the paper but ye. We can chat about this
+
+
+3) I think there were some parts of code Helen and I (Parth) commented out for the smart functions, so the two of us will prob have to take another look at them (Helen: I'm talking about the check_win stuff mostly lmaooo)
+
+
+4) Prob should clean up some of this code with the 50 billion comments LMAO. Although this is a last step
+
+
+5) Something's prob gonna come up cuz coding do be like that but we got this - W team fr. It's also 2:28 AM rn tho so all of this file could just be gibberish so ignore it if that's the case :D
+
+
+6) I think Im going insane but why the f- is this thing going all the way down one side and then moving around :sob:.
