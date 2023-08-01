@@ -13,7 +13,7 @@ test_board[7][8] = 1
 test_board[7][7] = 1
 test_board[8][6] = 1
 test_board[6][8] = 1
-test_board[8][5] = 1
+test_board[8][4] = 1
 test_board[4][8] = 1
 test_board[7][6] = 1
 test_board[6][7] = 1
@@ -33,4 +33,5 @@ test_board[4][2] = 2
 board_print(test_board)
 print(check_in_endgame(test_board))
 print(check_database(test_board))
+make_endgame_move(test_board)
 make_endgame_move(test_board)

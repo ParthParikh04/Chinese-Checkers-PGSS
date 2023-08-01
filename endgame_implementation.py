@@ -241,10 +241,10 @@ def make_endgame_move(board):
       #print(move_info[5])
       #print(move_info[6])
       my_move = move_info_list[idx]
-      print(my_move[0])
-      print(my_move[1])
-      print(my_move[2])
-      print(my_move[3])
+      #print(my_move[0])
+      #print(my_move[1])
+      #print(my_move[2])
+      #print(my_move[3])
       return my_move[0],my_move[1],my_move[2], my_move[3]
 
       make_move(my_move[0],my_move[1],my_move[2], my_move[3], my_move[4],my_move[5],my_move[6])
@@ -260,13 +260,13 @@ def make_endgame_move(board):
 
 #Check
 test_board = convert_string_to_board('000000000000000000000000000000000000000000000000000101000000111000000011000000111')
-board_print(test_board)
+#board_print(test_board)
 pieces = real_get_p1(test_board)
-print(pieces)
-make_endgame_move(test_board)
-make_endgame_move(test_board)
-make_endgame_move(test_board)
-make_endgame_move(test_board)
+#print(pieces)
+#make_endgame_move(test_board)
+#make_endgame_move(test_board)
+#make_endgame_move(test_board)
+#make_endgame_move(test_board)
 #board_print(convert_string_to_board('000000000000000000000000000000000000000000000000000101000000111000000011000000111'))
 
 
@@ -276,6 +276,16 @@ make_endgame_move(test_board)
 
 
 
+def my_flip_board(board):
+  new_board = copy.deepcopy(board)
+  M = 9
+  for i in range(M):
+    for j in range(M):
+      if new_board[i][j] == 1:
+        new_board[i][j] = 2
+      elif new_board[i][j] == 2:
+        new_board[i][j] = 1
+  return new_board
 
 
 
@@ -289,10 +299,21 @@ make_endgame_move(test_board)
 
 
 
-
-
+n = 1
 
 def smartturn(board, level, p1, p2):
+    if (n % 2) == 1:
+      n += 1
+      if check_endgame_valid(board) == True:
+        bestmove = make_endgame_move(board)
+        return (bestmove)
+    elif (n % 2) == 0:
+      n += 1
+      if check_endgame_valid(my_flip_board(board)) == True:
+        bestmove = make_endgame_move(my_flip_board)
+        return (bestmove)
+      
+
     org_movelist = valid_moves(p1, board)
     # print("org_movelist: ", end ="")
     # print(org_movelist)
@@ -350,3 +371,54 @@ def smartturn(board, level, p1, p2):
               bestmove = copy.copy(mymove)
     # print ("bestval is ",bestval)
     return (bestmove)
+
+
+
+
+
+
+
+
+
+
+
+# M = 9
+# test_board = [[0 for i in range(M)] for j in range(M)]
+# #player 1 positions
+# test_board[8][8] = 1
+# test_board[8][7] = 1
+# test_board[7][8] = 1
+# test_board[7][7] = 1
+# test_board[8][6] = 1
+# test_board[6][8] = 1
+# test_board[8][4] = 1
+# test_board[4][8] = 1
+# test_board[7][6] = 1
+# test_board[6][7] = 1
+# #player 2 positions
+# test_board[0][8] = 2
+# test_board[1][7] = 2
+# test_board[7][1] = 2
+# test_board[6][2] = 2
+# test_board[5][3] = 2
+# test_board[3][5] = 2
+# test_board[4][5] = 2
+# test_board[3][3] = 2
+# test_board[5][2] = 2
+# test_board[4][2] = 2
+
+
+# #print(len(endgame_dictionary))
+# '''for key in endgame_dictionary:
+#   board_print(convert_string_to_board(key))
+#   print(endgame_dictionary[key])'''
+# #board_print(test_board)
+# #print(check_in_endgame(test_board))
+# #print(check_database(test_board))
+# print(make_endgame_move(test_board))
+# #make_endgame_move(test_board)
+# #print(endgame_dictionary)
+# #board_print(test_board)
+# #board_print(my_flip_board(test_board))
+# #print(check_valid_endgame(test_board))
+

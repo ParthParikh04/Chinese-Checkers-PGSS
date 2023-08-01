@@ -1,7 +1,10 @@
-import statistics
+from endgame_dictionary import load_in_table
+import time
 
-
-print(statistics.stdev([0, 1, 2, 3]))
+t1 = time.time()
+d = load_in_table()
+print(t1-time.time())
+print(d)
 
 
 '''

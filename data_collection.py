@@ -13,10 +13,11 @@ from legal_moves import print_board
 from smart_turn import *
 
 import time
-start_time = time.time()
+start_time1 = time.time()
 
 move_counter = 0 # initialize move counter
 #board = [[0 for i in range(M)] for j in range(M)]
+
 
 def set_board ():
     board = make_board()
@@ -47,21 +48,29 @@ def set_board ():
     p2.append([8, 8])
     return board, p1, p2
 
-
-    
         
-    
+global t1 
+global t2
+t1 = 0
+t2 = 0
 
 ### SMART TURN
 def smart_turn (): #returns 0 if draw, 1 if p1 wins, and -1 if p2 wins
+    global t1 
+    global t2
     # return smartturn(board, LEVELS_OF_SEARCH, p1, p2)
     n = 1000
     won = False
     for i in range(n):#test it out with n moves for each player
         print("i is: ", i)
-        x1, y1, x2, y2 = smartturn(board, LEVELS_OF_SEARCH, p1, p2)
+        print("FIRST PLAYER")
+        
+        start_time = time.time()
+        x1, y1, x2, y2 = smartturn(board, LEVELS_OF_SEARCH, p1, p2) #, lkahead=lookahead)
         print(x1, y1, x2, y2)
         make_move(x1, y1, x2, y2, 1, board, p1)
+        t1 += time.time() - start_time
+        
         print_board(board)
         if(check_win(board, 1)):
             print("Printing board if check_win for 1")
@@ -78,17 +87,23 @@ def smart_turn (): #returns 0 if draw, 1 if p1 wins, and -1 if p2 wins
         print_board(board)
         print("***********************")
 
+        print("SECOND PLAYER")
+
         ### SMART MOVE
         flip_board(board, p1, p2)
+        
+        start_time = time.time()
         x1, y1, x2, y2 = smartturn(board, LEVELS_OF_SEARCH, p2, p1, pl = 2)
         print(x1, y1, x2, y2)
         # board_print(board)
         make_move(x1, y1, x2, y2, 2, board, p2)
+        t2 += time.time() - start_time
+        
         # # print_board(board)
         # print("after move")
         # board_print(board)
         # flip_board(board, p1, p2)
-
+        
         
         flip_board(board, p1, p2)
         print("***********************")
@@ -119,10 +134,10 @@ def smart_turn (): #returns 0 if draw, 1 if p1 wins, and -1 if p2 wins
         # print_board(board)
         # board_print(board)
     print_board(board)
-    return -100
+    return -100, i
 
 
-k = 5
+k = 1
 win1 = 0
 win2 = 0
 draw = 0
@@ -160,7 +175,11 @@ if(draw == 0):
     print("average # turns for draws ", 0)
 else:
     print("average # turns for draws ", (sum_draw)/draw)
+print(t1)
+print(t2)
+
 print_board(board)
 
 
-print("--- %s seconds ---" % (time.time() - start_time))
+
+print("--- %s seconds ---" % (time.time() - start_time1))

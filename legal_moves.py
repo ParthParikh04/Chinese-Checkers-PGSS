@@ -338,7 +338,7 @@ def check_win(board, player=1, flipped=False):  #pieces is p1 or p2
   return False'''
 
 
-def calc_board1(pieces):  #calculated from p1's point of view
+def calc_board1(pieces, pieces_opp):  #calculated from p1's point of view
     sum = 0
     for piece in pieces[:-1]:
         # print(piece)
@@ -357,29 +357,31 @@ def calc_board1(pieces):  #calculated from p1's point of view
 
 
 
-MAX_CALCBOARD = 960
+MAX_CALCBOARD = 999999
 
 
-def calc_board2(pieces):  #calculated from p1's point of view
+def calc_board2(pieces, pieces_opp):  #calculated from p1's point of view
     sum = 0
     for piece in pieces[:-1]:
         # print(piece)
-        sum += (8 - piece[0]) * (8 - piece[0])
-        sum += (8 - piece[1]) * (8 - piece[1])
+        sum += (9 - piece[0]) * (9 - piece[0])
+        sum += (9 - piece[1]) * (9 - piece[1])
     # print("sum: ", sum)
     return 1000 - sum  # score is 0 when starting, 960 when won
 
 
 def calc_board3(pieces, pieces_opp):
-    weight = 1000  #it seems like weight must be very large since the difference in standard deviation is not great.
+    weight = 10  #it seems like weight must be very large since the difference in standard deviation is not great.
     xs = []
     ys = []
     sum = 0
-    for piece in pieces[:-1]:
-        xs.append(piece[0])
-        ys.append(piece[1])
-        sum += (8 - piece[0]) * (8 - piece[0])
-        sum += (8 - piece[1]) * (8 - piece[1])
+    for i in range(len(pieces)-1):
+        xs.append(pieces[i][0] * 5)
+        xs.append(pieces_opp[i][0])
+        ys.append(pieces[i][1] * 5)
+        ys.append(pieces_opp[i][0])
+        sum += (9 - pieces[i][0]) * (9 - pieces[i][0])
+        sum += (9 - pieces[i][1]) * (9 - pieces[i][1])
 
     stdev = statistics.stdev(xs) + statistics.stdev(ys)
 
@@ -388,7 +390,9 @@ def calc_board3(pieces, pieces_opp):
     # print(stdev * weight)
     # print (4000 - sum - stdev*weight)
 
-    return 4000 - sum - stdev * weight
+    # print(10000 - sum - stdev * weight)
+
+    return 10000 - sum - stdev * weight
     # return score / stdev # score is 0 when starting, 960 when won
 
 

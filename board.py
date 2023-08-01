@@ -67,7 +67,7 @@ def get_og_position():
     return get_og_position()
 
 def usr_change_piece():
-  poss_change = str(input("If you would like to move somewhere else select 1. If you would like to select a new piece to move, enter 0. "))
+  poss_change = str(input("If you would like to move somewhere else enter 1. If you would like to select a new piece to move, enter 0. "))
   return poss_change
   
 
