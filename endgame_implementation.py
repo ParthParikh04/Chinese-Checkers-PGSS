@@ -1,8 +1,51 @@
-from endgame import*
+#from endgame import convert_board_to_string
+#from endgame import convert_string_to_board
+#from endgame import convert_board
+#from endgame import get_p1
 from board import*
 from legal_moves import*
+from endgame_dictionary import load_in_table
 import copy
 
+def get_p1(board):
+  M = 9
+  p1 = []
+  for i in range(M):
+    for j in range(M):
+      if board[i][j] == 1:
+        p1.append([i,j])
+  p1.append([0,0])
+  return p1
+
+def convert_board(board):
+  new_board = copy.deepcopy(board)
+  M = 9
+  for i in range(M):
+    for j in range(M):
+      if new_board[i][j] == 2:
+        new_board[i][j] = 0
+  return new_board 
+
+def convert_string_to_board(s):
+  M = 9
+  board = [[0 for i in range(M)] for j in range(M)]
+  for k in range(len(s)):
+    char = int(s[k])
+    i = k % 9
+    j = int(k / 9)
+    board[i][j] = char
+  return(board)  
+
+def convert_board_to_string(board):
+  M = 9
+  board_string = ''
+  for j in range(M):
+    for i in range(M):
+      board_string += str(board[i][j])
+  return(board_string)
+
+
+endgame_dictionary = load_in_table()
 #Check_in_endgame finds player 1s least advanced piece and checks if it is past player2s farthest advanced piece.
 #The function should reutrn true if the position is an endgame
 
@@ -152,15 +195,15 @@ def make_endgame_move(board):
 
       move_info_list.append(move_info)
       
-      print(x1)
-      print(y1)
-      print(x2)
-      print(y2)
-      print(player)
+      #print(x1)
+      #print(y1)
+      #print(x2)
+      #print(y2)
+      #print(player)
       #board_print(updated_board)
-      print(new_pieces)
+      #print(new_pieces)
       make_move(x1, y1, x2, y2, player, updated_board, new_pieces)
-      board_print(updated_board)
+      #board_print(updated_board)
       #test
       #board_print(updated_board)
       #Convert to string
@@ -178,7 +221,7 @@ def make_endgame_move(board):
   s_current_board = convert_board_to_string(convert_board(z))
   moves_away = endgame_dictionary[s_current_board]
   #check
-  print(moves_away)
+  #print(moves_away)
   if moves_away == 0:
     print("We won")
     return True
@@ -186,19 +229,24 @@ def make_endgame_move(board):
     #Check
     #print(endgame_dictionary[position])
     n = endgame_dictionary.get(position, -10)
-    print(n)
+    #print(n)
     if n == (moves_away-1):
       idx = possible_positions.index(position,0,len(possible_positions))
-      print("")
-      print(move_info[0])
-      print(move_info[1])
-      print(move_info[2])
-      print(move_info[3])
-      print(move_info[4])
-      print(move_info[5])
-      print(move_info[6])
+      #print("")
+      #print(move_info[0])
+      #print(move_info[1])
+      #print(move_info[2])
+      #print(move_info[3])
+      #print(move_info[4])
+      #print(move_info[5])
+      #print(move_info[6])
       my_move = move_info_list[idx]
+      print(my_move[0])
+      print(my_move[1])
+      print(my_move[2])
+      print(my_move[3])
       return my_move[0],my_move[1],my_move[2], my_move[3]
+
       make_move(my_move[0],my_move[1],my_move[2], my_move[3], my_move[4],my_move[5],my_move[6])
       print("hello")
       print("")
@@ -215,6 +263,7 @@ test_board = convert_string_to_board('000000000000000000000000000000000000000000
 board_print(test_board)
 pieces = real_get_p1(test_board)
 print(pieces)
+make_endgame_move(test_board)
 make_endgame_move(test_board)
 make_endgame_move(test_board)
 make_endgame_move(test_board)

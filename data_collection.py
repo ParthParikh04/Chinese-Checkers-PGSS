@@ -50,10 +50,11 @@ def set_board ():
 
     
         
-        
+    
 
 ### SMART TURN
 def smart_turn (): #returns 0 if draw, 1 if p1 wins, and -1 if p2 wins
+    # return smartturn(board, LEVELS_OF_SEARCH, p1, p2)
     n = 1000
     won = False
     for i in range(n):#test it out with n moves for each player
@@ -72,10 +73,14 @@ def smart_turn (): #returns 0 if draw, 1 if p1 wins, and -1 if p2 wins
         # print(y1, x1, y2, x2)
         # make_move(x1, y1, x2, y2, 2, board, p2)
         # flip_board(board, p1, p2)
+        print("***********************")
+        print("THIS IS AN ACTUAL PRINT")
+        print_board(board)
+        print("***********************")
 
         ### SMART MOVE
         flip_board(board, p1, p2)
-        x1, y1, x2, y2 = smartturn(board, LEVELS_OF_SEARCH, p2, p1)
+        x1, y1, x2, y2 = smartturn(board, LEVELS_OF_SEARCH, p2, p1, pl = 2)
         print(x1, y1, x2, y2)
         # board_print(board)
         make_move(x1, y1, x2, y2, 2, board, p2)
@@ -84,33 +89,40 @@ def smart_turn (): #returns 0 if draw, 1 if p1 wins, and -1 if p2 wins
         # board_print(board)
         # flip_board(board, p1, p2)
 
-        if(check_win(board, 1)):
+        
+        flip_board(board, p1, p2)
+        print("***********************")
+        print("THIS IS AN ACTUAL PRINT")
+        print_board(board)
+        print("***********************")
+        # input()
+
+        if(check_win(board, 2)):
             print("yes")
-            flip_board(board, p1, p2)
+            # flip_board(board, p1, p2)
             if(won):
                 print("draw")
                 return 0, i
             else:
-                print(i)
-                print("p2 wins")
-                print_board(board)
+                # print(i)
+                # print("p2 wins")
+                # print_board(board)
                 return -1, i
         if(won):
-            print("won")
-            flip_board(board, p1, p2)
-            print("p1 wins")
-            print_board(board)
-            print(board)
+            # print("won")
+            # flip_board(board, p1, p2)
+            # print("p1 wins")
+            # print_board(board)
+            # print(board)
             return 1, i
             
-        flip_board(board, p1, p2)
         # print_board(board)
         # board_print(board)
     print_board(board)
     return -100
 
 
-k = 1
+k = 5
 win1 = 0
 win2 = 0
 draw = 0

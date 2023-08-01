@@ -12,11 +12,11 @@ POSSIBLE BUGS
 - OverflowError in errors list :sob:
 '''
 
-def lookahead_pruning(p1, p2, board, level, best_val = -1 * MAX_CALCBOARD): # returns the best value for any possible move
+def lookahead_pruning(p1, p2, board, level, best_val = -1 * MAX_CALCBOARD, calcboard=calc_board2): # returns the best value for any possible move
     # print("PRUNING")
     if level==0:
         # score = calc_board3(p1, p2)
-        score = calc_board1(p1)
+        score = calcboard(p1, p2)
         # print(f"Calculating board position and got {score}")
         return score
     else:
@@ -38,11 +38,11 @@ def lookahead_pruning(p1, p2, board, level, best_val = -1 * MAX_CALCBOARD): # re
           # print("fake move: ", key[0], key[1], dest[0], dest[1])
           # print(dest) # 1 or 2 subject to change
           # print_board(temp_board)
-          if check_win(temp_board, 1 if player == 2 else 2):
+          if check_win(temp_board, 1 if player == 2 else 2, flipped=True):
             print("Check win returned true")
             return (MAX_CALCBOARD + 10) * -1 # I'm thinking we should do smthng like prof did and return a very extreme number here to account for  - Parth
           # print('CALLING LOOKAHEAD AGAIN')
-          val = lookahead_pruning(temp_p1, temp_p2, temp_board, level-1, best_val) # Flip p1 and p2 to account for turn change (OR MAYBE NOT IDK???)
+          val = lookahead_pruning(temp_p1, temp_p2, temp_board, level-1, best_val, calcboard=calcboard) # Flip p1 and p2 to account for turn change (OR MAYBE NOT IDK???)
           # print(f"val: {val}")
           # print(f"Value from lookahead: {val}")
           if val > best_val:
@@ -53,11 +53,11 @@ def lookahead_pruning(p1, p2, board, level, best_val = -1 * MAX_CALCBOARD): # re
       return -(best_val)
 
 
-def lookahead(p1, p2, board, level): # returns the best value for any possible move
+def lookahead(p1, p2, board, level, calcboard=calc_board3): # returns the best value for any possible move
     # print("NO PRUNING")
     if level==0:
         # score = calc_board3(p1, p2)
-        score = calc_board1(p1)
+        score = calcboard(p1, p2)
         # print(f"Calculating board position and got {score}")
         return score
     else:
@@ -80,11 +80,11 @@ def lookahead(p1, p2, board, level): # returns the best value for any possible m
           # print("fake move: ", key[0], key[1], dest[0], dest[1])
           # print(dest) # 1 or 2 subject to change
           # print_board(temp_board)
-          if check_win(temp_board, 1 if player == 2 else 2):
+          if check_win(temp_board, 1 if player == 2 else 2, flipped=True):
             print("Check win returned true")
             return (MAX_CALCBOARD + 10) * -1 # I'm thinking we should do smthng like prof did and return a very extreme number here to account for  - Parth
           # print('CALLING LOOKAHEAD AGAIN')
-          val = lookahead(temp_p1, temp_p2, temp_board, level-1) # Flip p1 and p2 to account for turn change (OR MAYBE NOT IDK???)
+          val = lookahead(temp_p1, temp_p2, temp_board, level-1, calcboard=calcboard) # Flip p1 and p2 to account for turn change (OR MAYBE NOT IDK???)
           # print(f"val: {val}")
           # print(f"Value from lookahead: {val}")
           if val > best_val:
@@ -94,7 +94,7 @@ def lookahead(p1, p2, board, level): # returns the best value for any possible m
           
 
 
-def smartturn(board, level, p1, p2, lkahead = lookahead_pruning):
+def smartturn(board, level, p1, p2, lkahead = lookahead_pruning, pl = 0, clcbrd = calc_board3):
     print("STARTED SMART TURN")
     org_movelist = valid_moves(p1, board)
     # print("org_movelist: ", end ="")
@@ -118,14 +118,51 @@ def smartturn(board, level, p1, p2, lkahead = lookahead_pruning):
           tempP1 = copy.deepcopy(p1)
           tempP2 = copy.deepcopy(p2)
           bool = (tempP1[10] == [0, 0])  #tells us if we're p1 or p2 - originally is true
+          # if pl == 2:
+          #   bool = not bool
           player = 1 if bool else 2 #player = 1 if we are p1 - originally is 1
           # print("PREMOVE: ", tempP1)
           # print(key)
           # print(dest)
+          
+          # Count 1s and 2s in board
+          one = 0
+          two = 0
+          for row in tempBoard:
+             for i in row:
+                if i == 1:
+                  one += 1
+                elif i == 2:
+                  two += 1
+
+          # print("")
+          # board_print(tempBoard)
           if(player ==1):
-              make_move(key[0], key[1], dest[0], dest[1], 1, tempBoard, tempP1)
+              # print(player)
+              make_move(key[0], key[1], dest[0], dest[1], 2 if pl == 2 else player, tempBoard, tempP1)
           else:
-              make_move(key[0], key[1], dest[0], dest[1], 2, tempBoard, tempP2)
+              # print(player)
+              make_move(key[0], key[1], dest[0], dest[1], 1 if pl == 2 else player, tempBoard, tempP2)
+
+          # print(pl)
+
+          # Count 1s and 2s in board
+          one = 0
+          two = 0
+          for row in tempBoard:
+             for i in row:
+                if i == 1:
+                  one += 1
+                elif i == 2:
+                  two += 1
+          if one != two:
+             print("ERROR: ONE AND TWO ARE NOT EQUAL")
+             print_board(tempBoard)
+             print(tempP1)
+             print(tempP2)
+             input()
+          # input(": ")
+
           # print("fake move: ", key[0], key[1], dest[0], dest[1])
           # print("POSTMOVE: ", tempP1)
           if bool:
@@ -140,6 +177,7 @@ def smartturn(board, level, p1, p2, lkahead = lookahead_pruning):
           if check_win(tempBoard, player):
               print("tempBoard: ")
               board_print(tempBoard)
+              print_board(tempBoard)
               print(player)
               print("You win")
               print("ENDED SMART TURN")
@@ -149,7 +187,7 @@ def smartturn(board, level, p1, p2, lkahead = lookahead_pruning):
           # BOARD RIGHT BEFORE FIRST LOOKAHEAD
           # print("BOARD RIGHT BEFORE FIRST LOOKAHEAD")
           # print_board(tempBoard)
-          val = lkahead(tempP1, tempP2, tempBoard,level) #,mymove)
+          val = lkahead(tempP1, tempP2, tempBoard,level, calcboard = clcbrd) #,mymove)
           # print("key: ",key, end="")
           # print("dest: ",dest)
           # print("value:", val)
@@ -157,7 +195,7 @@ def smartturn(board, level, p1, p2, lkahead = lookahead_pruning):
               bestval = val
               bestmove = copy.copy(mymove)
     # print ("bestval is ",bestval)
-    print("ENDED SMART TURN")
+    # print("ENDED SMART TURN")
     return (bestmove)
   
 

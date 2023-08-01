@@ -71,7 +71,7 @@ while(True):#test it out with n moves for each player
     
     flip_board(board, p1, p2)
       
-    x1, y1, x2, y2 = smartturn(board, LEVELS_OF_SEARCH, p2, p1, lookahead)
+    x1, y1, x2, y2 = smartturn(board, LEVELS_OF_SEARCH, p2, p1)
     print(x1, y1, x2, y2)
     make_move(x1, y1, x2, y2, 2, board, p2)
     print(calc_board1(p2))
