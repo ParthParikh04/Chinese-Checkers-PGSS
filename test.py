@@ -1,5 +1,6 @@
 import statistics
 
+
 print(statistics.stdev([0, 1, 2, 3]))
 
 
@@ -59,3 +60,7 @@ def valid_next_positions(board):
     make_move(key[0], key[1], value[0], value[1], 1, board, p1_2)
 valid_next_positions(board)
 '''
+
+
+
+
