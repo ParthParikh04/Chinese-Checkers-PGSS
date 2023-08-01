@@ -3,7 +3,7 @@ import copy
 import progressbar
 from endgame_implementation import check_valid_endgame, make_endgame_move, my_flip_board
 
-LEVELS_OF_SEARCH = 2 #Even number of layers I think??
+LEVELS_OF_SEARCH = 0 #Even number of layers I think??
 
 
 

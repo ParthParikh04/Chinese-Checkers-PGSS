@@ -66,8 +66,8 @@ def smart_turn (): #returns 0 if draw, 1 if p1 wins, and -1 if p2 wins
         print("FIRST PLAYER")
         
         start_time = time.time()
-        x1, y1, x2, y2 = smartturn(board, LEVELS_OF_SEARCH, p1, p2) #, lkahead=lookahead)
-        print(x1, y1, x2, y2)
+        y1, x1, y2, x2 = random_turn(board, 1, p1)
+        print(y1, x1, y2, x2)
         make_move(x1, y1, x2, y2, 1, board, p1)
         t1 += time.time() - start_time
         
