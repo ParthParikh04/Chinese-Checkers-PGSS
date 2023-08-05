@@ -8,6 +8,8 @@ from legal_moves import make_move
 from legal_moves import board_print
 from legal_moves import random_turn
 from legal_moves import check_win
+from smart_turn import smartturn
+from legal_moves import flip_board
 import sys
 
 
@@ -87,8 +89,15 @@ board_print(board)
 
 player = 1
 
-y1, x1, y2, x2 = random_turn(board, player, p1)
+# Code for random turn
+# y1, x1, y2, x2 = random_turn(board, player, p1)
+
+# Code for smartturn
+flip_board(board, p1, p2)
+x1, y1, x2, y2 = smartturn(board, 5, p1, p2, pl=2, clcbrd=calc_board4)
 make_move(x1, y1, x2, y2, player, board, p1)
+flip_board(board, p1, p2)
+
 print_board(board)
 
 
@@ -137,7 +146,13 @@ while check_win(board) == False:
       print_board(board)
 
       #Allow player to continue moving the piece
-      cont = int(continue_move())
+      while True:
+        try:
+          cont = int(continue_move())
+          break
+        except ValueError:
+          print("Invalid input. Try again!")
+          
       while cont == 2:
         x1, y1 = x2, y2
         x2, y2 = get_new_position()
@@ -152,9 +167,16 @@ while check_win(board) == False:
       
     #Computer move player 1
     elif player == 1:
-      y1, x1, y2, x2 = random_turn(board, player, p1)
-      #print("Update p1")
+      # Code for random turn
+      # y1, x1, y2, x2 = random_turn(board, player, p1)
+      
+      # Code for smartturn
+      flip_board(board, p1, p2)
+      x1, y1, x2, y2 = smartturn(board, 5, p1, p2, pl=2, clcbrd=calc_board4)
       make_move(x1, y1, x2, y2, player, board, p1)
+      flip_board(board, p1, p2)
+      
+      #print("Update p1")
       print_board(board)
 
       player += 1
