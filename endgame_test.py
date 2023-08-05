@@ -4,7 +4,7 @@ from board import *
 
 #Make test board
 
-M = 9
+'''M = 9
 test_board = [[0 for i in range(M)] for j in range(M)]
 #player 1 positions
 test_board[8][8] = 1
@@ -34,4 +34,21 @@ board_print(test_board)
 print(check_in_endgame(test_board))
 print(check_database(test_board))
 make_endgame_move(test_board)
-make_endgame_move(test_board)
+make_endgame_move(test_board)'''
+
+
+#board_print(convert_string_to_board('000000000000000000000000000000000001000000000000000001000000010000000111000001111'))
+#board_print(convert_string_to_board('000000000000000000000000000000000001000000000000000001000000010000000111000001111'))
+#board_print(convert_string_to_board('000000000000000000000000000000000000000000001000000001000000011000000111000001011'))
+
+#print(make_endgame_move(convert_string_to_board('000000000000000000000000000000000000000000001000000001000000011000000111000001011')))
+
+board_print(convert_string_to_board('000000000000000000000000000000000000000000000000000001000000011000000111000001111'))
+
+board_print(convert_string_to_board('000000000000000000000000000000000000000000000000000010000000011000000111000001111'))
+
+board_print(convert_string_to_board('000000000000000000000000000000000000000000000000000000000000000000000001111111111'))
+for key in endgame_dictionary:
+  if endgame_dictionary[key] == 1:
+    print(key)
+    board_print(convert_string_to_board(key))

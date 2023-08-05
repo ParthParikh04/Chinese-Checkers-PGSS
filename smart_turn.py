@@ -1,9 +1,8 @@
 from legal_moves import *
 import copy
-import progressbar
 from endgame_implementation import check_valid_endgame, make_endgame_move, my_flip_board
 
-LEVELS_OF_SEARCH = 0 #Even number of layers I think??
+
 
 
 
@@ -13,12 +12,15 @@ POSSIBLE BUGS
 - OverflowError in errors list :sob:
 '''
 
-def lookahead_pruning(p1, p2, board, level, best_val = -1 * MAX_CALCBOARD, calcboard=calc_board2, flipped=False): # returns the best value for any possible move
+def lookahead_pruning(p1, p2, board, level, best_val = -1 * MAX_CALCBOARD, calcboard=calc_board2, flipped=False, weight=None): # returns the best value for any possible move
     # print("PRUNING")
     if level==0:
         # print_board(board)
         # score = calc_board3(p1, p2)
-        score = calcboard(p1, p2)
+        if weight != None:
+          score = calcboard(p1, p2, weight)
+        else:
+          score = calcboard(p1, p2)
         # print(score)
         # print(p1)
         # print(p2)
@@ -44,11 +46,13 @@ def lookahead_pruning(p1, p2, board, level, best_val = -1 * MAX_CALCBOARD, calcb
           # print("fake move: ", key[0], key[1], dest[0], dest[1])
           # print(dest) # 1 or 2 subject to change
           # print_board(temp_board)
-          if check_win(temp_board, 1 if player == 2 else 2, flipped=True):
+          if player == 2 and flipped:
+             input("Shoot")
+          if check_win(temp_board, player, flipped=True):
             print("Check win returned true")
             return (MAX_CALCBOARD + 10) * -1 # I'm thinking we should do smthng like prof did and return a very extreme number here to account for  - Parth
           # print('CALLING LOOKAHEAD AGAIN')
-          val = lookahead_pruning(temp_p1, temp_p2, temp_board, level-1, best_val, calcboard=calcboard) # Flip p1 and p2 to account for turn change (OR MAYBE NOT IDK???)
+          val = lookahead_pruning(temp_p1, temp_p2, temp_board, level-1, best_val, calcboard=calcboard, flipped=flipped) # Flip p1 and p2 to account for turn change (OR MAYBE NOT IDK???)
           # print(f"val: {val}")
           # print(f"Value from lookahead: {val}")
           if val > best_val:
@@ -59,11 +63,14 @@ def lookahead_pruning(p1, p2, board, level, best_val = -1 * MAX_CALCBOARD, calcb
       return -(best_val)
 
 
-def lookahead(p1, p2, board, level, calcboard=calc_board1, flipped=False): # returns the best value for any possible move
+def lookahead(p1, p2, board, level, calcboard=calc_board1, flipped=False, weight=None): # returns the best value for any possible move
     # print("NO PRUNING")
     if level==0:
         # score = calc_board3(p1, p2)
-        score = calcboard(p1, p2)
+        if weight != None:
+          score = calcboard(p1, p2, weight)
+        else:
+          score = calcboard(p1, p2)
         # print(f"Calculating board position and got {score}")
         return score
     else:
@@ -86,7 +93,7 @@ def lookahead(p1, p2, board, level, calcboard=calc_board1, flipped=False): # ret
           # print("fake move: ", key[0], key[1], dest[0], dest[1])
           # print(dest) # 1 or 2 subject to change
           # print_board(temp_board)
-          if check_win(temp_board, 1 if player == 2 else 2, flipped=True):
+          if check_win(temp_board, player, flipped=True):
             print("Check win returned true")
             return (MAX_CALCBOARD + 10) * -1 # I'm thinking we should do smthng like prof did and return a very extreme number here to account for  - Parth
           # print('CALLING LOOKAHEAD AGAIN')
@@ -101,8 +108,12 @@ def lookahead(p1, p2, board, level, calcboard=calc_board1, flipped=False): # ret
           
 
 
-def smartturn(board, level, p1, p2, lkahead = lookahead_pruning, pl = 0, clcbrd = calc_board2, flipped=False, endgame=True):
+def smartturn(board, level, p1, p2, lkahead = lookahead_pruning, pl = 0, clcbrd = calc_board2, flipped=False, endgame=True, LEVELS_OF_SEARCH=None, weight=None):
+    if LEVELS_OF_SEARCH == None:
+      LEVELS_OF_SEARCH = level
     print("STARTED SMART TURN")
+    # input(level)
+    # input(LEVELS_OF_SEARCH)
     # Check endgame routine
     if endgame:
       if pl == 2:         
@@ -133,8 +144,13 @@ def smartturn(board, level, p1, p2, lkahead = lookahead_pruning, pl = 0, clcbrd 
         movelist[key] = org_movelist[key] 
     else:
       movelist = org_movelist
-    bestval = -1001
-    bestmove = []
+    bestval = -MAX_CALCBOARD
+    for key in movelist:
+      try:
+          bestmove = key[0], key[1], movelist[key][0][0], movelist[key][0][1]
+      except IndexError:
+          continue
+      break
     for key in movelist:
         for dest in movelist[key]: #for every move 
           tempBoard = copy.deepcopy(board)
@@ -183,7 +199,7 @@ def smartturn(board, level, p1, p2, lkahead = lookahead_pruning, pl = 0, clcbrd 
              print_board(tempBoard)
              print(tempP1)
              print(tempP2)
-             input()
+             return False
           # input(": ")
 
           # print("fake move: ", key[0], key[1], dest[0], dest[1])
@@ -210,7 +226,10 @@ def smartturn(board, level, p1, p2, lkahead = lookahead_pruning, pl = 0, clcbrd 
           # BOARD RIGHT BEFORE FIRST LOOKAHEAD
           # print("BOARD RIGHT BEFORE FIRST LOOKAHEAD")
           # print_board(tempBoard)
-          val = lkahead(tempP1, tempP2, tempBoard,level, calcboard = clcbrd) #,mymove)
+          if weight != None:
+            val = lkahead(tempP1, tempP2, tempBoard,level, calcboard = clcbrd, weight=weight)
+          else:
+            val = lkahead(tempP1, tempP2, tempBoard,level, calcboard = clcbrd) #,mymove)
           # print("key: ",key, end="")
           # print("dest: ",dest)
           # print("value:", val)

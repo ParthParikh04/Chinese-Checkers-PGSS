@@ -370,8 +370,7 @@ def calc_board2(pieces, pieces_opp):  #calculated from p1's point of view
     return 1000 - sum  # score is 0 when starting, 960 when won
 
 
-def calc_board3(pieces, pieces_opp):
-    weight = 10  #it seems like weight must be very large since the difference in standard deviation is not great.
+def calc_board3(pieces, pieces_opp, weight = 10):  #it seems like weight must be very large since the difference in standard deviation is not great.
     xs = []
     ys = []
     sum = 0
@@ -395,5 +394,20 @@ def calc_board3(pieces, pieces_opp):
     return 10000 - sum - stdev * weight
     # return score / stdev # score is 0 when starting, 960 when won
 
+
+def calc_board4(pieces, pieces_opp, diffs_weight=1):
+  sum = 0
+  diffs_weight 
+  diffs = 0
+  for piece in pieces[:-1]:
+    # print(piece)
+    sum += (9 - piece[0]) * (9 - piece[0])
+    sum += (9 - piece[1]) * (9 - piece[1])
+    diffs += abs(piece[0] - piece[1])
+
+  # print(sum)
+  # print(diffs * diffs_weight)
+  return 10000 - sum - diffs * diffs_weight
+  
 
 #since we have the board now, if we really need to make check_win faster, we can. Good as is for now

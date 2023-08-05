@@ -64,9 +64,9 @@ def smart_turn (): #returns 0 if draw, 1 if p1 wins, and -1 if p2 wins
     for i in range(n):#test it out with n moves for each player
         print("i is: ", i)
         print("FIRST PLAYER")
-        
+        LEVELS_OF_SEARCH= 0
         start_time = time.time()
-        x1, y1, x2, y2 = smartturn(board, LEVELS_OF_SEARCH, p1, p2) #, lkahead=lookahead)
+        x1, y1, x2, y2 = smartturn(board, LEVELS_OF_SEARCH, p1, p2, clcbrd = calc_board3, weight = 3) #, lkahead=lookahead)
         print(x1, y1, x2, y2)
         make_move(x1, y1, x2, y2, 1, board, p1)
         t1 += time.time() - start_time
@@ -112,11 +112,12 @@ def smart_turn (): #returns 0 if draw, 1 if p1 wins, and -1 if p2 wins
         flip_board(board, p1, p2)
         # print_board(board)
         # board_print(board)
+        # input()
     print_board(board)
     return -100, i
 
 
-k = 10
+k = 10    
 win1 = 0
 win2 = 0
 draw = 0
